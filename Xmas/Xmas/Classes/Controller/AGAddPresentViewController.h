@@ -8,9 +8,17 @@
 
 #import <UIKit/UIKit.h>
 
+@class AGAddPresentViewController;
+
+@protocol AGAddPresentViewControllerDelegate <NSObject>
+
+- (void)addPresentViewController:(AGAddPresentViewController *)controller
+                   didAddGift:(id)gift;
+
+@end
+
 @interface AGAddPresentViewController : UITableViewController
-@property (weak, nonatomic) IBOutlet UITextField *toWhomTextField;
-@property (weak, nonatomic) IBOutlet UITextView *description;
-@property (weak, nonatomic) IBOutlet UITextField *password;
-@property (weak, nonatomic) IBOutlet UISwitch *isSecret;
+
+@property (nonatomic, weak) id <AGAddPresentViewControllerDelegate> delegate;
+
 @end

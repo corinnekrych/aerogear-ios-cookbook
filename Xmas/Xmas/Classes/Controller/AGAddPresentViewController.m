@@ -8,12 +8,14 @@
 
 #import "AGAddPresentViewController.h"
 
+@interface AGAddPresentViewController()
+    @property (weak, nonatomic) IBOutlet UITextField *toWhomTextField;
+    @property (weak, nonatomic) IBOutlet UITextView *description;
+    @property (weak, nonatomic) IBOutlet UITextField *password;
+    @property (weak, nonatomic) IBOutlet UISwitch *isSecret;
+@end
 
 @implementation AGAddPresentViewController
-@synthesize toWhomTextField;
-@synthesize description;
-@synthesize password;
-@synthesize isSecret;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -35,24 +37,29 @@
 }
 
 - (BOOL) validate {
-    if ([toWhomTextField.text length] != 0 &&
-        [description.text length] !=0 &&
-        [password.text length] != 0) {
+    if ([self.toWhomTextField.text length] != 0 &&
+        [self.description.text length] !=0 &&
+        [self.password.text length] != 0) {
         return YES;
     } else {
-        toWhomTextField.layer.borderColor = [[UIColor redColor]CGColor];
-        toWhomTextField.layer.borderWidth = 1.0;
-        description.layer.borderColor = [[UIColor redColor]CGColor];
-        description.layer.borderWidth = 1.0;
-        password.layer.borderColor = [[UIColor redColor]CGColor];
-        password.layer.borderWidth = 1.0;
+        self.toWhomTextField.layer.borderColor = [[UIColor redColor]CGColor];
+        self.toWhomTextField.layer.borderWidth = 1.0;
+        self.description.layer.borderColor = [[UIColor redColor]CGColor];
+        self.description.layer.borderWidth = 1.0;
+        self.password.layer.borderColor = [[UIColor redColor]CGColor];
+        self.password.layer.borderWidth = 1.0;
         return NO;
     }
 }
 
-- (BOOL)shouldPerformSegueWithIdentifier:(NSString *)identifier sender:(id)sender {
-    return  [self validate];
+- (IBAction)save:(id)sender {
+    if ([self validate]) {
+        NSMutableDictionary *gift = [@{@"toWhom": self.toWhomTextField.text,
+                                          @"description":self.description.text,
+                                          @"password": self.password.text} mutableCopy];
+        
+        [self.delegate addPresentViewController:self didAddGift:gift];
+    }
 }
-
 
 @end

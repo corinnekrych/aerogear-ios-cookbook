@@ -9,6 +9,10 @@
 #import <UIKit/UIKit.h>
 #import "AGGiftCellView.h"
 
-@interface AGGiftListCollectionViewController : UICollectionViewController<UICollectionViewDataSource, UICollectionViewDelegate>
+#import "AGAddPresentViewController.h"
+
+@interface AGGiftListCollectionViewController : UICollectionViewController<UICollectionViewDataSource, UICollectionViewDelegate, AGAddPresentViewControllerDelegate>
+
 @property(nonatomic, strong) NSMutableArray* gifts;
+
 @end
