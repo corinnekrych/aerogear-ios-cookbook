@@ -15,13 +15,14 @@
  * limitations under the License.
  */
 
-#import "AGHobbiesViewController.h"
+#import "AGBuddiesViewController.h"
+#import "AGHobbiesTableViewController.h"
 
-@interface AGHobbiesViewController ()
+@interface AGBuddiesViewController ()
 
 @end
 
-@implementation AGHobbiesViewController
+@implementation AGBuddiesViewController
 @synthesize users = _users;
 @synthesize tableView;
 
@@ -36,7 +37,7 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.users = @[
+    self.users = [@[
                     @{
                         @"id": @"123456-654321",
                         @"name": @"Luke Skywalker",
@@ -75,7 +76,7 @@
                                 }
                             ]
                         },
-                   ];
+                   ] mutableCopy];
 }
 
 - (void)didReceiveMemoryWarning
@@ -104,5 +105,19 @@
     cell.textLabel.text = [[self.users objectAtIndex:indexPath.row] objectForKey:@"name"];
     return cell;
 }
-
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
+    if ([segue.identifier isEqualToString:@"viewHobbies"]) {
+        NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
+        AGHobbiesTableViewController *hobbiesViewController = (AGHobbiesTableViewController *)segue.destinationViewController;
+        
+        NSDictionary *temp = [self.users objectAtIndex:indexPath.row];
+        NSArray *tempList = [temp objectForKey:@"hobbies"];
+        hobbiesViewController.hobbies = [tempList mutableCopy];
+        [hobbiesViewController.tableView reloadData];
+        
+    } else if ([segue.identifier isEqualToString:@"addUser"]) {
+//        AGAddRecipeViewController *addRecipeViewController = segue.destinationViewController;
+//        addRecipeViewController.delegate = self;
+    }
+}
 @end

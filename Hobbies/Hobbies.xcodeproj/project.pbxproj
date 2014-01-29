@@ -14,13 +14,14 @@
 		487FDBC918994F920036A734 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBC818994F920036A734 /* main.m */; };
 		487FDBCD18994F920036A734 /* AGAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBCC18994F920036A734 /* AGAppDelegate.m */; };
 		487FDBD018994F920036A734 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 487FDBCE18994F920036A734 /* Main.storyboard */; };
-		487FDBD318994F920036A734 /* AGHobbiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBD218994F920036A734 /* AGHobbiesViewController.m */; };
+		487FDBD318994F920036A734 /* AGBuddiesViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBD218994F920036A734 /* AGBuddiesViewController.m */; };
 		487FDBD518994F920036A734 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 487FDBD418994F920036A734 /* Images.xcassets */; };
 		487FDBDC18994F920036A734 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487FDBDB18994F920036A734 /* XCTest.framework */; };
 		487FDBDD18994F920036A734 /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487FDBBC18994F920036A734 /* Foundation.framework */; };
 		487FDBDE18994F920036A734 /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 487FDBC018994F920036A734 /* UIKit.framework */; };
 		487FDBE618994F920036A734 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 487FDBE418994F920036A734 /* InfoPlist.strings */; };
 		487FDBE818994F920036A734 /* HobbiesTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBE718994F920036A734 /* HobbiesTests.m */; };
+		487FDBF318999C6F0036A734 /* AGHobbiesTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 487FDBF218999C6F0036A734 /* AGHobbiesTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -45,14 +46,16 @@
 		487FDBCB18994F920036A734 /* AGAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGAppDelegate.h; sourceTree = "<group>"; };
 		487FDBCC18994F920036A734 /* AGAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGAppDelegate.m; sourceTree = "<group>"; };
 		487FDBCF18994F920036A734 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
-		487FDBD118994F920036A734 /* AGHobbiesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGHobbiesViewController.h; sourceTree = "<group>"; };
-		487FDBD218994F920036A734 /* AGHobbiesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGHobbiesViewController.m; sourceTree = "<group>"; };
+		487FDBD118994F920036A734 /* AGBuddiesViewController.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = AGBuddiesViewController.h; sourceTree = "<group>"; };
+		487FDBD218994F920036A734 /* AGBuddiesViewController.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = AGBuddiesViewController.m; sourceTree = "<group>"; };
 		487FDBD418994F920036A734 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
 		487FDBDA18994F920036A734 /* HobbiesTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = HobbiesTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		487FDBDB18994F920036A734 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
 		487FDBE318994F920036A734 /* HobbiesTests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "HobbiesTests-Info.plist"; sourceTree = "<group>"; };
 		487FDBE518994F920036A734 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
 		487FDBE718994F920036A734 /* HobbiesTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = HobbiesTests.m; sourceTree = "<group>"; };
+		487FDBF118999C6F0036A734 /* AGHobbiesTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = AGHobbiesTableViewController.h; sourceTree = "<group>"; };
+		487FDBF218999C6F0036A734 /* AGHobbiesTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = AGHobbiesTableViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -115,8 +118,10 @@
 				487FDBCB18994F920036A734 /* AGAppDelegate.h */,
 				487FDBCC18994F920036A734 /* AGAppDelegate.m */,
 				487FDBCE18994F920036A734 /* Main.storyboard */,
-				487FDBD118994F920036A734 /* AGHobbiesViewController.h */,
-				487FDBD218994F920036A734 /* AGHobbiesViewController.m */,
+				487FDBF118999C6F0036A734 /* AGHobbiesTableViewController.h */,
+				487FDBF218999C6F0036A734 /* AGHobbiesTableViewController.m */,
+				487FDBD118994F920036A734 /* AGBuddiesViewController.h */,
+				487FDBD218994F920036A734 /* AGBuddiesViewController.m */,
 				487FDBD418994F920036A734 /* Images.xcassets */,
 				487FDBC318994F920036A734 /* Supporting Files */,
 			);
@@ -250,8 +255,9 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				487FDBF318999C6F0036A734 /* AGHobbiesTableViewController.m in Sources */,
 				487FDBCD18994F920036A734 /* AGAppDelegate.m in Sources */,
-				487FDBD318994F920036A734 /* AGHobbiesViewController.m in Sources */,
+				487FDBD318994F920036A734 /* AGBuddiesViewController.m in Sources */,
 				487FDBC918994F920036A734 /* main.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -461,6 +467,7 @@
 				487FDBED18994F920036A734 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		487FDBEE18994F920036A734 /* Build configuration list for PBXNativeTarget "HobbiesTests" */ = {
 			isa = XCConfigurationList;
@@ -469,6 +476,7 @@
 				487FDBF018994F920036A734 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

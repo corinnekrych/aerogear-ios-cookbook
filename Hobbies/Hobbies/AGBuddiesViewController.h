@@ -15,8 +15,9 @@
  * limitations under the License.
  */
 
-#import "AGAppDelegate.h"
+#import <UIKit/UIKit.h>
 
-@implementation AGAppDelegate
-
+@interface AGBuddiesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (nonatomic, strong) IBOutlet UITableView *tableView;
+@property (nonatomic, strong) NSMutableArray* users;
 @end

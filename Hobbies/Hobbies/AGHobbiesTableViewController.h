@@ -17,7 +17,7 @@
 
 #import <UIKit/UIKit.h>
 
-@interface AGHobbiesViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@interface AGHobbiesTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
-@property (nonatomic, strong) NSMutableArray* users;
+@property (nonatomic, strong) NSMutableArray* hobbies;
 @end
