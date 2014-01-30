@@ -87,7 +87,7 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
                     <navigationItem key="navigationItem" title="Buddies'Hobbies" id="IKY-WG-M0w">
-                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Bt8-SY-Mod">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="edit" id="Bt8-SY-Mod">
                             <connections>
                                 <action selector="enterEditMode:" destination="KgB-wP-kg7" id="Zcu-hT-EpR"/>
                             </connections>
