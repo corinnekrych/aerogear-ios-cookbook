@@ -18,6 +18,7 @@
 #import <UIKit/UIKit.h>
 
 @interface AGHobbiesTableViewController : UIViewController <UITableViewDelegate, UITableViewDataSource>
+@property (weak, nonatomic) IBOutlet UIBarButtonItem *editButton;
 @property (nonatomic, strong) IBOutlet UITableView *tableView;
 @property (nonatomic, strong) NSMutableArray* hobbies;
 @end

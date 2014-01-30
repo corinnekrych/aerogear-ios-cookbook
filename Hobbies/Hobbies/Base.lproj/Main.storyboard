@@ -69,7 +69,7 @@
                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
                                 <prototypes>
-                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HobbiesCell" editingAccessoryType="detailDisclosureButton" id="tjm-Hm-ozt">
+                                    <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="HobbiesCell" id="tjm-Hm-ozt">
                                         <rect key="frame" x="0.0" y="86" width="320" height="44"/>
                                         <autoresizingMask key="autoresizingMask"/>
                                         <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="tjm-Hm-ozt">
@@ -86,8 +86,15 @@
                         </subviews>
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
                     </view>
-                    <navigationItem key="navigationItem" title="Buddies'Hobbies" id="IKY-WG-M0w"/>
+                    <navigationItem key="navigationItem" title="Buddies'Hobbies" id="IKY-WG-M0w">
+                        <barButtonItem key="rightBarButtonItem" style="plain" systemItem="add" id="Bt8-SY-Mod">
+                            <connections>
+                                <action selector="enterEditMode:" destination="KgB-wP-kg7" id="Zcu-hT-EpR"/>
+                            </connections>
+                        </barButtonItem>
+                    </navigationItem>
                     <connections>
+                        <outlet property="editButton" destination="Bt8-SY-Mod" id="G6x-b2-qxk"/>
                         <outlet property="tableView" destination="Lwt-M2-zmL" id="ri1-WI-vXD"/>
                     </connections>
                 </viewController>
