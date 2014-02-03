@@ -17,12 +17,17 @@
 
 #import "AGBuddiesViewController.h"
 #import "AGHobbiesTableViewController.h"
+#import "AGSyncPipe.h"
+#import "AGSyncPipeConfiguration.h"
+#import "AGSyncMetaData.h"
 
 @interface AGBuddiesViewController ()
 
 @end
 
-@implementation AGBuddiesViewController
+@implementation AGBuddiesViewController {
+    AGSyncPipe* _pipe;
+}
 @synthesize users = _users;
 @synthesize tableView;
 
@@ -37,8 +42,8 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-    self.users = [@[
-                    @{
+    NSMutableArray* tempUsers = [@[
+                   @{
                         @"id": @"123456-654321",
                         @"name": @"Luke Skywalker",
                         @"profession": @"Jedi",
@@ -48,7 +53,7 @@
                                         @"description": @"Fighting the Dark Side"
                                     },
                                     @{
-                                        @"id": [[NSUUID UUID] UUIDString],
+                                         @"id": [[NSUUID UUID] UUIDString],
                                         @"description": @"going into Tosche Station to pick up some power converters"
                                     },
                                     @{
@@ -72,11 +77,43 @@
                                 },
                                 @{
                                     @"id": [[NSUUID UUID] UUIDString],
-                                    @"description": @"Eat pizza"
+                                    @"description": @"Eating pizza"
                                 }
                             ]
                         },
                    ] mutableCopy];
+    AGSyncPipeConfiguration* config = [[AGSyncPipeConfiguration alloc] init];
+    [config setBaseURL:[NSURL URLWithString:@"http://localhost:8080"]];
+    [config setName:@"buddies"];
+    // high delay to not get in my way when debugging
+    [config setTimeout:1000];
+    
+    _pipe = [AGSyncPipe pipeWithConfig:config];
+    
+    // DB intialization
+    // Tweak: for now server-side doesn't support CREATE, so use UPDATE (ie:put an id)
+    // but no rev to create an initial record+rev
+    AGSyncMetaData* document = [AGSyncMetaData wrapContent:tempUsers[1]];
+    
+    [_pipe read:document success:^(id responseObject) {
+        NSLog(@"Success reading leonardo");
+        self.users = [[NSArray array] mutableCopy];
+        [self.users addObject:responseObject[@"content"]];
+        [self.tableView reloadData];
+    } failure:^(NSError *error){
+        NSLog(@"First time init: id not present in database");
+        [_pipe save:document success:^(id responseObject) {
+            NSLog(@"Added Leonardo");
+            self.users = [[NSArray array] mutableCopy];
+            [self.users addObject:responseObject[@"content"]];
+            [self.tableView reloadData];
+        } failure:^(NSError *error) {
+            NSLog(@"Failed to init Leonardo");
+        } conflict:^(NSError *error, id responseObject, id delta) {
+            NSLog(@"Conflict when saving Leonardo");
+        }];;
+    }];
+    
 }
 
 - (void)didReceiveMemoryWarning
