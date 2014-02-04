@@ -27,59 +27,38 @@
 
 @implementation AGBuddiesViewController {
     AGSyncPipe* _pipe;
+    NSInteger _selectedIndex;
 }
 @synthesize users = _users;
 @synthesize tableView;
 
-- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil
-{
+- (id)initWithNibName:(NSString *)nibNameOrNil bundle:(NSBundle *)nibBundleOrNil {
     self = [super initWithNibName:nibNameOrNil bundle:nibBundleOrNil];
     if (self) {
     }
     return self;
 }
 
-- (void)viewDidLoad
-{
+- (void)viewDidLoad {
     [super viewDidLoad];
     NSMutableArray* tempUsers = [@[
-                   @{
-                        @"id": @"123456-654321",
-                        @"name": @"Luke Skywalker",
-                        @"profession": @"Jedi",
-                        @"hobbies": @[
-                                    @{
-                                        @"id":[[NSUUID UUID] UUIDString],
-                                        @"description": @"Fighting the Dark Side"
-                                    },
-                                    @{
-                                         @"id": [[NSUUID UUID] UUIDString],
-                                        @"description": @"going into Tosche Station to pick up some power converters"
-                                    },
-                                    @{
-                                        @"id": [[NSUUID UUID] UUIDString],
-                                        @"description": @"Kissing his sister"
-                                    },
-                                    @{
-                                        @"id": [[NSUUID UUID] UUIDString],
-                                        @"description": @"Bulls eyeing Womprats on his T-16"
-                                    }
-                                ]
-                     },
                     @{
                         @"id": @"123456-4444444",
-                        @"name": @"Leonardo",
-                        @"profession": @"Ninja",
-                        @"hobbies": @[
-                                @{
-                                    @"id":[[NSUUID UUID] UUIDString],
-                                    @"description": @"Fighting the Dark Side"
-                                },
-                                @{
-                                    @"id": [[NSUUID UUID] UUIDString],
-                                    @"description": @"Eating pizza"
+                        @"content":@{
+                                @"id": @"123456-4444444",
+                                @"name": @"Leonardo",
+                                @"profession": @"Ninja",
+                                @"hobbies": @[
+                                        @{
+                                            @"id":[[NSUUID UUID] UUIDString],
+                                            @"description": @"Fighting the Dark Side"
+                                            },
+                                        @{
+                                            @"id": [[NSUUID UUID] UUIDString],
+                                            @"description": @"Eating pizza"
+                                            }
+                                        ]
                                 }
-                            ]
                         },
                    ] mutableCopy];
     AGSyncPipeConfiguration* config = [[AGSyncPipeConfiguration alloc] init];
@@ -93,44 +72,39 @@
     // DB intialization
     // Tweak: for now server-side doesn't support CREATE, so use UPDATE (ie:put an id)
     // but no rev to create an initial record+rev
-    AGSyncMetaData* document = [AGSyncMetaData wrapContent:tempUsers[1]];
+    AGSyncMetaData* document = [AGSyncMetaData wrapContent:tempUsers[0]];
     
+    // TODO replace by a read all when available server side
     [_pipe read:document success:^(id responseObject) {
         NSLog(@"Success reading leonardo");
         self.users = [[NSArray array] mutableCopy];
-        [self.users addObject:responseObject[@"content"]];
+        [self.users addObject:responseObject];
         [self.tableView reloadData];
     } failure:^(NSError *error){
         NSLog(@"First time init: id not present in database");
         [_pipe save:document success:^(id responseObject) {
             NSLog(@"Added Leonardo");
             self.users = [[NSArray array] mutableCopy];
-            [self.users addObject:responseObject[@"content"]];
+            [self.users addObject:responseObject];
             [self.tableView reloadData];
         } failure:^(NSError *error) {
             NSLog(@"Failed to init Leonardo");
         } conflict:^(NSError *error, id responseObject, id delta) {
             NSLog(@"Conflict when saving Leonardo");
-        }];;
+        }];
     }];
     
 }
 
-- (void)didReceiveMemoryWarning
-{
+- (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section{
-    // Return the number of rows in the section.
-    // Usually the number of items in your array (the one that holds your list)
     return [self.users count];
 }
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
-    //Where we configure the cell in each row
-    
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
     static NSString *CellIdentifier = @"UserCell";
     UITableViewCell *cell;
     
@@ -139,22 +113,42 @@
         cell = [[UITableViewCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:CellIdentifier];
     }
     // Configure the cell... setting the text of our cell's label
-    cell.textLabel.text = [[self.users objectAtIndex:indexPath.row] objectForKey:@"name"];
+    cell.textLabel.text = [[self.users objectAtIndex:indexPath.row] objectForKey:@"content"][@"name"];
     return cell;
 }
+
 - (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender {
     if ([segue.identifier isEqualToString:@"viewHobbies"]) {
         NSIndexPath *indexPath = [self.tableView indexPathForSelectedRow];
         AGHobbiesTableViewController *hobbiesViewController = (AGHobbiesTableViewController *)segue.destinationViewController;
         
-        NSDictionary *temp = [self.users objectAtIndex:indexPath.row];
-        NSArray *tempList = [temp objectForKey:@"hobbies"];
+        _selectedIndex = indexPath.row;
+        NSArray *tempList = [self.users objectAtIndex:_selectedIndex][@"content"][@"hobbies"];
         hobbiesViewController.hobbies = [tempList mutableCopy];
         [hobbiesViewController.tableView reloadData];
         
-    } else if ([segue.identifier isEqualToString:@"addUser"]) {
-//        AGAddRecipeViewController *addRecipeViewController = segue.destinationViewController;
-//        addRecipeViewController.delegate = self;
     }
+}
+
+-(IBAction)unwindToBuddiesContoller:(UIStoryboardSegue *)segue {
+    NSLog(@"Save changes");
+    AGHobbiesTableViewController* source = segue.sourceViewController;
+    
+    // Get data from source
+    NSArray* hobbies = source.hobbies;
+    NSMutableDictionary* temp = [self.users[_selectedIndex] mutableCopy];
+    NSMutableDictionary* tempContent = [[NSMutableDictionary alloc] initWithDictionary:temp[@"content"]];
+    tempContent[@"hobbies"] = hobbies;
+    temp[@"content"] = tempContent;
+    AGSyncMetaData* document = [AGSyncMetaData wrapContent:temp];
+    // save data in the list
+    [_pipe save:document success:^(id responseObject) {
+        NSLog(@"sucess in save Buddy");
+        self.users[_selectedIndex] = responseObject;
+    } failure:^(NSError *error) {
+        NSLog(@"failure in save Buddy");
+    } conflict:^(NSError *error, id responseObject, id delta) {
+        NSLog(@"conflict when saving Buddy");
+    }];
 }
 @end
