@@ -20,6 +20,7 @@
 #import "AGSyncPipe.h"
 #import "AGSyncPipeConfiguration.h"
 #import "AGSyncMetaData.h"
+#import "DiffMatchPatch.h"
 
 @interface AGBuddiesViewController ()
 
@@ -142,13 +143,21 @@
     temp[@"content"] = tempContent;
     AGSyncMetaData* document = [AGSyncMetaData wrapContent:temp];
     // save data in the list
-    [_pipe save:document success:^(id responseObject) {
+    [_pipe save:document success:^(AGSyncMetaData* responseObject) {
         NSLog(@"sucess in save Buddy");
         self.users[_selectedIndex] = responseObject;
     } failure:^(NSError *error) {
         NSLog(@"failure in save Buddy");
-    } conflict:^(NSError *error, id responseObject, id delta) {
-        NSLog(@"conflict when saving Buddy");
+    } conflict:^(NSError *error, AGSyncMetaData* from, AGSyncMetaData* to) {        
+        NSData *toData = [NSJSONSerialization dataWithJSONObject:[AGSyncMetaData serialize:to] options:NSJSONWritingPrettyPrinted                                                          error:nil];
+        NSString* toString =[[NSString alloc] initWithData:toData encoding:NSUTF8StringEncoding];
+        NSData *fromData = [NSJSONSerialization dataWithJSONObject:[AGSyncMetaData serialize:from] options:NSJSONWritingPrettyPrinted                                                          error:nil];
+        NSString* fromString =[[NSString alloc] initWithData:fromData encoding:NSUTF8StringEncoding];
+        NSLog(@"conflict when saving Buddy./n--> to == %@/ns-->from == %@", toString, fromString);
+        DiffMatchPatch *dmp = [[DiffMatchPatch alloc] init];
+        NSMutableArray *diffArray = [dmp diff_mainOfOldString:(NSString *)toString andNewString:(NSString *)fromString];
+        [dmp diff_cleanupSemantic:diffArray];
+        NSLog(@"Pretty diff display == %@", [diffArray description]);
     }];
 }
 @end

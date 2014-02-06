@@ -3,3 +3,4 @@ platform :ios, '5.0'
 
 pod 'AeroGear', git: "https://github.com/corinnekrych/aerogear-ios.git", branch: "sync.pipe"
 pod 'AeroGear-Sync', git: "https://github.com/corinnekrych/aerogear-sync-ios.git"
+pod 'Google-Diff-Match-Patch', :git=> 'https://github.com/corinnekrych/google-diff-match-patch-Objective-C.git'
